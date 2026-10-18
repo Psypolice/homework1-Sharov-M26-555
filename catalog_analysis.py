@@ -32,16 +32,16 @@ def average_rating(movies):
 
 # возвращает кортеж (самый старый фильм в годах, самый новый фильм в годах, среднее)
 def catalog_age_stats(movies, current_year=2026):
-    old = min(movies, key=lambda x: x['year'])['year']
-    new = max(movies, key=lambda x: x['year'])['year']
-    avg = math.ceil(sum(film['year'] for film in movies) / len(movies))
-    return current_year-old, current_year-new, current_year-avg
+    old = max([current_year - film['year'] for film in movies])
+    new = min([current_year - film['year'] for film in movies])
+    avg = current_year - math.ceil(sum(film['year'] for film in movies) / len(movies))
+    return old, new, avg
 
 # переводит минуты в формат "2ч 35м"
 def duration_in_hours(minutes):
     hours = minutes // 60
-    minutes = minutes % 60
-    return f"{hours}ч {minutes}мин"
+    min = minutes % 60
+    return f"{hours}ч {min}мин"
 
 print(average_rating(movies))
 print(catalog_age_stats(movies)) 
