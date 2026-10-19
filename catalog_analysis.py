@@ -91,6 +91,26 @@ def count_long_movies(movies, threshold=120):
             count += 1
     return count
 
+# приводит строку к формату Title Case (каждое слово с заглавной буквы) без использования str.title()
+def normalize_title(title):
+    words = title.split()
+    result = []
+    for word in words:
+        result.append(word[0].upper() + word[1:])
+    return " ".join(result)
+
+# превращает нормализованное название в «слаг» вида the-quiet-algorithm
+def make_slug(title):
+    return title.lower().replace(" ", "-")
+
+#  возвращающую единую строку с описанием фильма
+def format_report_line(movie):
+    genres = ", ".join(sorted(movie["genres"])) if movie["genres"] else "—"
+    return (
+        f'"{movie['title']}" ({movie['year']}) - '
+        f'{movie['rating']}/10, {duration_in_hours(movie['duration_min'])}, жанры: {genres}'
+    )
+
 print(average_rating(movies))
 print(catalog_age_stats(movies)) 
 print(movies)
@@ -98,3 +118,6 @@ print(duration_in_hours(168))
 print(rating_tier(7))
 print(decade_label(2015))
 print(count_long_movies(movies))
+print(normalize_title("john wick"))
+print(make_slug("JOHN WICK SICK"))
+print(format_report_line(movies[0]))
