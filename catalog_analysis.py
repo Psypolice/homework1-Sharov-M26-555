@@ -43,7 +43,28 @@ def duration_in_hours(minutes):
     min = minutes % 60
     return f"{hours}ч {min}мин"
 
+# по оценке возвращает категорию: "шедевр" (≥9), "хорошо" (7–8.9), "средне" (5–6.9), "слабо" (<5)
+def rating_tier(rating):    
+    if rating <= 5:
+        return "слабо"
+    elif rating <= 6.9:
+        return "средне"
+    else:
+        return "хорошо" if rating <= 8.9 else "шедевр"
+
+# через оператор match возвращает метку "новые" (после 2020), "недавние" (2015–2020) или "старые" (раньше 2015).
+def decade_label(year):
+    match year:
+        case year if year > 2020:
+            return "новые"
+        case year if (year >= 2015 | year <= 2020):
+            return "недавние"
+        case year if year < 2015:
+            return "старые"
+
 print(average_rating(movies))
 print(catalog_age_stats(movies)) 
 print(movies)
 print(duration_in_hours(168))
+print(rating_tier(7))
+print(decade_label(2015))
