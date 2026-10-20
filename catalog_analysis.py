@@ -111,6 +111,14 @@ def format_report_line(movie):
         f'{movie['rating']}/10, {duration_in_hours(movie['duration_min'])}, жанры: {genres}'
     )
 
+# возвращающую список названий фильмов, отсортированных по убыванию рейтинга
+def titles_sorted_by_rating(movies):
+    return [f['title'] for f in sorted(movies, key=lambda film: film['rating'], reverse=True)]
+
+# возвращающую список из n кортежей (title, rating) — топ по рейтингу
+def top_n_by_rating(movies, n=3):
+    return tuple((f['title'], f['rating']) for f in sorted(movies, key=lambda film: film['rating'], reverse=True)[:n])
+                                                                                   
 print(average_rating(movies))
 print(catalog_age_stats(movies)) 
 print(movies)
@@ -121,3 +129,5 @@ print(count_long_movies(movies))
 print(normalize_title("john wick"))
 print(make_slug("JOHN WICK SICK"))
 print(format_report_line(movies[0]))
+print(titles_sorted_by_rating(movies))
+print(top_n_by_rating(movies))
