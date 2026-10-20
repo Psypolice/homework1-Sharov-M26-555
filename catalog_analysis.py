@@ -32,9 +32,9 @@ def average_rating(movies):
 
 # возвращает кортеж (самый старый фильм в годах, самый новый фильм в годах, среднее)
 def catalog_age_stats(movies, current_year=2026):
-    old = max([current_year - film['year'] for film in movies])
-    new = min([current_year - film['year'] for film in movies])
-    avg = current_year - math.ceil(sum(film['year'] for film in movies) / len(movies))
+    old = max([current_year - films['year'] for films in movies])
+    new = min([current_year - films['year'] for films in movies])
+    avg = current_year - math.ceil(sum(films['year'] for films in movies) / len(movies))
     return old, new, avg
 
 # переводит минуты в формат "2ч 35м"
@@ -65,10 +65,10 @@ def decade_label(year):
 # С помощью for и continue выведите на экран (print) названия всех фильмов, которые НЕ
 #  относятся к жанру "comedy".
 def stage31(movies):
-    for film in movies:
-        if film['genres'] == 'comedy':
+    for films in movies:
+        if films['genres'] == 'comedy':
             continue
-        print(film['title'])
+        print(films['title'])
 
 # С помощью while и break найдите первый по порядку в списке фильм с рейтингом выше 9.0;
 # если такого фильма нет, цикл должен завершиться веткой else с сообщением "Шедевров не найдено"
@@ -118,7 +118,45 @@ def titles_sorted_by_rating(movies):
 # возвращающую список из n кортежей (title, rating) — топ по рейтингу
 def top_n_by_rating(movies, n=3):
     return tuple((f['title'], f['rating']) for f in sorted(movies, key=lambda film: film['rating'], reverse=True)[:n])
-                                                                                   
+
+# возвращающую словарь {жанр: количество фильмов}, построенный вручную через цикл и метод dict.get()
+def count_by_genre(movies):
+    result = {}
+    for films in movies:
+        genres = films.get('genres')
+        if genres is None:
+            continue
+        for genre in genres:
+            result[genre] = result.get(genre, 0) + 1
+    return result
+
+# возвращающую словарь {актер: [список названий фильмов]}.
+def actor_filmography(movies):
+    result = {}
+    for films in movies:
+        title = films.get('title')
+        if not title:
+            continue
+        actor = films.get('actors')
+        if not actor:
+            continue
+        for act in actor:
+            result.setdefault(act, []).append(title)
+    return result
+
+#С помощью генератора словаря (dict comprehension) постройте словарь {title: rating} 
+# только для фильмов с рейтингом выше среднего (используйте average_rating из этапа 1)
+def title_rating(movies):
+    return {
+    films['title']: films['rating'] 
+    for films in movies 
+    if films.get('rating', 0) > average_rating(movies)
+}
+
+
+
+
+
 print(average_rating(movies))
 print(catalog_age_stats(movies)) 
 print(movies)
@@ -131,3 +169,6 @@ print(make_slug("JOHN WICK SICK"))
 print(format_report_line(movies[0]))
 print(titles_sorted_by_rating(movies))
 print(top_n_by_rating(movies))
+print(count_by_genre(movies))
+print(actor_filmography(movies))
+print(title_rating(movies))
