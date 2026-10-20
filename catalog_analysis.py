@@ -2,7 +2,8 @@ import math
 
 movies = [
     {"title": "The Dune Chronicles", "year": 2021, "genres": {"sci-fi", "drama"},
-     "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", "O. Isaac"]},
+     "rating": 8.6, "duration_min": 155, "actors": ["T. Chalamet", "R. Ferguson", 
+    "O. Isaac"]},
     {"title": "Kitchen Stories", "year": 2019, "genres": {"comedy", "drama"},
      "rating": 7.1, "duration_min": 98, "actors": ["A. Novak", "M. Ferguson"]},
     {"title": "silent hours", "year": 2016, "genres": {"thriller", "drama"},
@@ -43,7 +44,8 @@ def duration_in_hours(minutes):
     mins = minutes % 60
     return f"{hours}ч {mins}мин"
 
-# по оценке возвращает категорию: "шедевр" (≥9), "хорошо" (7–8.9), "средне" (5–6.9), "слабо" (<5)
+# по оценке возвращает категорию: "шедевр" (≥9), "хорошо" (7–8.9), "средне" (5–6.9), 
+# "слабо" (<5)
 def rating_tier(rating):    
     if rating <= 5:
         return "слабо"
@@ -52,7 +54,8 @@ def rating_tier(rating):
     else:
         return "хорошо" if rating <= 8.9 else "шедевр"
 
-# через оператор match возвращает метку "новые" (после 2020), "недавние" (2015–2020) или "старые" (раньше 2015).
+# через оператор match возвращает метку "новые" (после 2020), "недавние" (2015–2020) 
+# или "старые" (раньше 2015).
 def decade_label(year):
     match year:
         case year if year > 2020:
@@ -69,11 +72,10 @@ def stage31(movies):
         if 'comedy' in movie['genres']:
             continue
         print(movie['title'])
-stage31(movies)
-print()
 
 # С помощью while и break найдите первый по порядку в списке фильм с рейтингом выше 9.0;
-# если такого фильма нет, цикл должен завершиться веткой else с сообщением "Шедевров не найдено"
+# если такого фильма нет, цикл должен завершиться веткой else с сообщением 
+# "Шедевров не найдено"
 def stage32(movies):
     index = 0
     while index < len(movies):
@@ -83,11 +85,10 @@ def stage32(movies):
         index += 1
     else:
         print("Шедевров не найдено")
-stage32(movies)
-print()
 
 # Напишите функцию count_long_movies(movies, threshold=120), 
-# которая через for с накопительной переменной считает количество фильмов длиннее threshold минут.
+# которая через for с накопительной переменной считает количество фильмов длиннее 
+# threshold минут.
 def count_long_movies(movies, threshold=120):
     count = 0
     for movie in movies:
@@ -95,7 +96,8 @@ def count_long_movies(movies, threshold=120):
             count += 1
     return count
 
-# приводит строку к формату Title Case (каждое слово с заглавной буквы) без использования str.title()
+# приводит строку к формату Title Case (каждое слово с заглавной буквы) 
+# без использования str.title()
 def normalize_title(title):
     words = title.split()
     result = []
@@ -112,18 +114,22 @@ def format_report_line(movie):
     genres = ", ".join(sorted(movie.get('genres', [])))
     return (
         f'"{movie['title']}" ({movie['year']}) - '
-        f'{movie['rating']}/10, {duration_in_hours(movie['duration_min'])}, жанры: {genres}'
+        f'{movie['rating']}/10, {duration_in_hours(movie['duration_min'])},' 
+        f'жанры: {genres}'
     )
 
 # возвращающую список названий фильмов, отсортированных по убыванию рейтинга
 def titles_sorted_by_rating(movies):
-    return [f['title'] for f in sorted(movies, key=lambda movie: movie['rating'], reverse=True)]
+    return [f['title'] for f in sorted(movies, key=lambda movie: movie['rating'], 
+    reverse=True)]
 
 # возвращающую список из n кортежей (title, rating) — топ по рейтингу
 def top_n_by_rating(movies, n=3):
-    return tuple((f['title'], f['rating']) for f in sorted(movies, key=lambda movie: movie['rating'], reverse=True)[:n])
+    return tuple((f['title'], f['rating']) for f in sorted(movies, 
+    key=lambda movie: movie['rating'], reverse=True)[:n])
 
-# возвращающую словарь {жанр: количество фильмов}, построенный вручную через цикл и метод dict.get()
+# возвращающую словарь {жанр: количество фильмов}, построенный вручную через цикл 
+# и метод dict.get()
 def count_by_genre(movies):
     result = {}
     for movie in movies:
@@ -213,4 +219,6 @@ def build_report(movies):
     
     print(f"Все жанры каталога: {', '.join(sorted(all_genres(movies)))}")
 
-build_report(movies)
+if __name__ == "__main__":
+
+    build_report(movies)
