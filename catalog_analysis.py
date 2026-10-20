@@ -153,8 +153,21 @@ def title_rating(movies):
     if films.get('rating', 0) > average_rating(movies)
 }
 
+# возвращающую множество всех уникальных жанров каталога
+def all_genres(movies):
+    result = set()
+    for films in movies:
+        genre = films.get('genres')
+        result.update(genre)
+    return result
 
+# возвращающую множество актеров, снимавшихся в обоих фильмах
+def common_actors(movie1, movie2):
+    return set(movie1.get('actors')) & set(movie2.get('actors'))
 
+# которая возвращает жанры, встречающиеся в movies_a, но не встречающиеся в movies_b
+def genres_only_in_one(movies_a, movies_b):
+    return all_genres(movies_a) - all_genres(movies_b)
 
 
 print(average_rating(movies))
@@ -172,3 +185,6 @@ print(top_n_by_rating(movies))
 print(count_by_genre(movies))
 print(actor_filmography(movies))
 print(title_rating(movies))
+print(all_genres(movies))
+print(common_actors(movies[0], movies[3]))
+print(genres_only_in_one(movies[5:6], movies[:5]))
