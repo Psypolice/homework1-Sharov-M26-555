@@ -169,6 +169,23 @@ def common_actors(movie1, movie2):
 def genres_only_in_one(movies_a, movies_b):
     return all_genres(movies_a) - all_genres(movies_b)
 
+# которая через yield лениво отдает фильмы с рейтингом не ниже min_rating
+def iter_high_rated(movies, min_rating=8.0):
+    for films in movies:
+        if films.get('rating') >= min_rating:
+            yield films
+
+# Продемонстрируйте ее работу циклом for с вызовом format_report_line.
+print("=== Фильмы с рейтингом >= 8.0 ===")
+for movie in iter_high_rated(movies):
+    print(format_report_line(movie))
+
+#  генераторное выражение, которое считает суммарную длительность всех фильмов 
+# с рейтингом выше 7 в минутах, и передайте его в sum().
+sum(m["duration_min"] for m in movies if m["rating"] > 7)
+
+
+
 
 print(average_rating(movies))
 print(catalog_age_stats(movies)) 
